@@ -303,15 +303,31 @@ void MPU_ReadCplt_DMA(MPU_data *data){
 	// Reset I2C flag
 	data->reading_data = 0;
 
-	// Construct raw 16 bit data
-	data->accel_X_raw = (int16_t)(data->raw[0] << 8 | data->raw[1]);
-	data->accel_Y_raw = (int16_t)(data->raw[2] << 8 | data->raw[3]);
-	data->accel_Z_raw = (int16_t)(data->raw[4] << 8 | data->raw[5]);
-	data->gyro_X_raw = (int16_t)(data->raw[8] << 8 | data->raw[9]);
-	data->gyro_Y_raw = (int16_t)(data->raw[10] << 8 | data->raw[11]);
-	data->gyro_Z_raw = (int16_t)(data->raw[12] << 8 | data->raw[13]);
+	// Set I2C flag
+	data->data_rdy = 1;
 
 }
+
+void MPU_Raw_Construct(MPU_data *data){
+
+	// check if data is ready
+	if(data->data_rdy == 1){
+
+		// Construct raw 16 bit data
+		data->accel_X_raw = (int16_t)(data->raw[0] << 8 | data->raw[1]);
+		data->accel_Y_raw = (int16_t)(data->raw[2] << 8 | data->raw[3]);
+		data->accel_Z_raw = (int16_t)(data->raw[4] << 8 | data->raw[5]);
+		data->gyro_X_raw = (int16_t)(data->raw[8] << 8 | data->raw[9]);
+		data->gyro_Y_raw = (int16_t)(data->raw[10] << 8 | data->raw[11]);
+		data->gyro_Z_raw = (int16_t)(data->raw[12] << 8 | data->raw[13]);
+
+		// Reset I2C flag
+		data->data_rdy = 0;
+
+	}
+}
+
+
 
 //
 void MPU_Compute_FData(MPU_data *data){

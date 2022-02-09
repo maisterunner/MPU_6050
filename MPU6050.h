@@ -289,8 +289,9 @@ typedef struct MPU_data{
 	I2C_HandleTypeDef *i2c_Handle;
 	GPIO_TypeDef *int_PinPort;
 	uint16_t int_Pin;
-		// I2C busy flag
+		// I2C flags
 	uint8_t reading_data;
+	uint8_t data_rdy;
 		// Accel / Gyro gains for float vars
 	float accel_gain;
 	float gyro_gain;
@@ -327,6 +328,8 @@ uint8_t MPU_Read_Meas(MPU_data *data);
 uint8_t MPU_SendAddr_DMA(MPU_data *data);
 uint8_t MPU_ReadData_DMA(MPU_data *data);
 void MPU_ReadCplt_DMA(MPU_data *data);
+void MPU_Raw_Construct(MPU_data *data);
+void MPU_Compute_FData(MPU_data *data);
 
 
 
